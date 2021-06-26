@@ -82,9 +82,18 @@
           $("#controls").remove();
           
           // Fetch up to 200 features in one big fetch.
-          api.get("/products/" + productKey + "/features", {per_page: 200, fields: 'reference_num,name,description,requirements'}, function(response) {
-            $("#feature-template").tmpl(response.features).appendTo("#features");
-          });
+          var url = "https://company.aha.io/api/v1/releases/APP-R-1/features?page=2";
+
+var xhr = new XMLHttpRequest();
+xhr.open("GET", url);
+
+xhr.onreadystatechange = function () {
+   if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+   }};
+
+xhr.send();
         });
         return false;
       });
