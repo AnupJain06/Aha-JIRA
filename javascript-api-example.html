@@ -70,33 +70,25 @@
     <div id="features"></div>
     
     <script>
-      $("#controls").submit(function() {    
-        new AhaApi({
-          accountDomain: $("#subdomain").val(),
-          clientId: "e35ea84e71e174ab97615ff04812a6813336aee83eb6b6e34f37d2632004a3fe", // NOTE: replace this with your client ID.
-          redirectUri: "https://github.com/AnupJain06/Aha-JIRA/blob/main/javascript-api-example.html"
-        }).authenticate(function(api, success, message) {
-          var productKey = $("#product-key").val();
-          
-          // Hide the controls.
-          $("#controls").remove();
-          
-          // Fetch up to 200 features in one big fetch.
-          var url = "https://company.aha.io/api/v1/releases/APP-R-1/features?page=2";
+  $("#controls").submit(function() {
+    new AhaApi({
+      accountDomain: $("#subdomain").val(),
+      // Replace this with your client ID.
+      clientId: "e35ea84e71e174ab97615ff04812a6813336aee83eb6b6e34f37d2632004a3fe", 
+      // Replace this with your redirect URL.
+      redirectUri: "http://lvh.me:4567/scorecard.html"
+    }).authenticate(function(api, success, message) {
+      var productKey = $("#product-key").val();
+      
+      // Hide the controls.
+      $("#controls").remove();
 
-var xhr = new XMLHttpRequest();
-xhr.open("GET", url);
-
-xhr.onreadystatechange = function () {
-   if (xhr.readyState === 4) {
-      console.log(xhr.status);
-      console.log(xhr.responseText);
-   }};
-
-xhr.send();
-        });
-        return false;
+      api.get("/products/" + productKey + "/features", {}, function(response) {
+        // Do something with the features.
       });
-    </script>
+    });
+    return false;
+  });
+</script>
   </body>
 </html>
